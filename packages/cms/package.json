@@ -1,0 +1,35 @@
+{
+  "name": "@startup-boilerplate/cms",
+  "version": "0.1.0",
+  "private": true,
+  "description": "CMS abstraction with built-in Supabase adapter. Reads posts, pages, and navigation through RLS-safe queries.",
+  "license": "MIT",
+  "type": "module",
+  "main": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./interfaces": "./src/interfaces.ts",
+    "./contract": "./src/contract.ts"
+  },
+  "scripts": {
+    "lint": "eslint . --max-warnings 0",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:contract": "vitest run --dir src/adapters",
+    "clean": "rm -rf .turbo coverage node_modules/.cache"
+  },
+  "dependencies": {
+    "@startup-boilerplate/db": "workspace:*",
+    "@startup-boilerplate/env": "workspace:*",
+    "drizzle-orm": "0.45.2"
+  },
+  "devDependencies": {
+    "@startup-boilerplate/config": "workspace:*",
+    "@types/node": "25.6.0",
+    "eslint": "9.39.4",
+    "postgres": "3.4.9",
+    "typescript": "6.0.3",
+    "vitest": "4.1.4"
+  }
+}

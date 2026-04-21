@@ -198,6 +198,37 @@ importers:
         specifier: 4.1.4
         version: 4.1.4(@opentelemetry/api@1.9.1)(@types/node@25.6.0)(@vitest/coverage-v8@4.1.4)(jsdom@29.0.2)(vite@8.0.9(@types/node@25.6.0)(esbuild@0.27.7)(jiti@2.6.1)(terser@5.46.1)(tsx@4.21.0)(yaml@2.8.3))
 
+  packages/cms:
+    dependencies:
+      "@startup-boilerplate/db":
+        specifier: workspace:*
+        version: link:../db
+      "@startup-boilerplate/env":
+        specifier: workspace:*
+        version: link:../env
+      drizzle-orm:
+        specifier: 0.45.2
+        version: 0.45.2(@opentelemetry/api@1.9.1)(@types/pg@8.15.6)(postgres@3.4.9)
+    devDependencies:
+      "@startup-boilerplate/config":
+        specifier: workspace:*
+        version: link:../config
+      "@types/node":
+        specifier: 25.6.0
+        version: 25.6.0
+      eslint:
+        specifier: 9.39.4
+        version: 9.39.4(jiti@2.6.1)
+      postgres:
+        specifier: 3.4.9
+        version: 3.4.9
+      typescript:
+        specifier: 6.0.3
+        version: 6.0.3
+      vitest:
+        specifier: 4.1.4
+        version: 4.1.4(@opentelemetry/api@1.9.1)(@types/node@25.6.0)(@vitest/coverage-v8@4.1.4)(jsdom@29.0.2)(vite@8.0.9(@types/node@25.6.0)(esbuild@0.27.7)(jiti@2.6.1)(terser@5.46.1)(tsx@4.21.0)(yaml@2.8.3))
+
   packages/config:
     dependencies:
       "@eslint/js":
