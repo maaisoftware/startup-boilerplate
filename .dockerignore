@@ -1,0 +1,17 @@
+**/node_modules
+**/.next
+**/.turbo
+**/dist
+**/build
+**/coverage
+**/test-results
+**/playwright-report
+**/.git
+**/.vscode
+**/.idea
+**/.qodo
+**/.husky/_
+**/.env.local
+**/.env.*.local
+**/*.log
+knowledge

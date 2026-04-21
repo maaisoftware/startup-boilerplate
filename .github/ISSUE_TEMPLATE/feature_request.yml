@@ -1,0 +1,35 @@
+name: Feature request
+description: Propose a change to the boilerplate
+labels: [feature]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What pain point is this solving? Why does it belong in the template rather than a per-client repo?
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed change
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: A feature that skips this question often ends up regretted. Think through 1–2 other options.
+
+  - type: checkboxes
+    id: impact
+    attributes:
+      label: Impact
+      options:
+        - label: Adds a new abstraction layer (requires ADR)
+        - label: Changes an existing abstraction contract (requires ADR + adapter updates)
+        - label: New GitHub workflow
+        - label: New env variable (documented in `.env.example`)
+        - label: New package under `packages/`
