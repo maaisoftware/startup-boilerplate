@@ -14,7 +14,7 @@ export interface JsonLdProps {
   /** Schema.org JSON-LD payload. Must include an `@context` and `@type`. */
   data: Record<string, unknown>;
   /**
-   * Nonce for CSP. Pass when strict-CSP is enforced. Middleware already
+   * Nonce for CSP. Pass when strict-CSP is enforced. The Proxy layer
    * allows unsafe-inline in dev; prod CSP blocks inline scripts without
    * a nonce.
    */

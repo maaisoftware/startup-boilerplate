@@ -48,7 +48,7 @@ First tagged release. Everything needed to fork this template and start shipping
 ### API proxy + security rails (PR #6)
 
 - `@startup-boilerplate/api-client`: typed fetch wrapper that only hits `/api/*`, validates every response with Zod, sends CSRF on non-GET.
-- `apps/web/src/middleware.ts`: CSP (strict in prod), HSTS, X-Frame-Options DENY, Referrer-Policy, Permissions-Policy. Rate-limits /api/\* (60 req/min reads, 10 req/min writes).
+- `apps/web/src/proxy.ts` (renamed from `middleware.ts` for Next 16 compatibility): CSP (strict in prod), HSTS, X-Frame-Options DENY, Referrer-Policy, Permissions-Policy. Rate-limits /api/\* (60 req/min reads, 10 req/min writes).
 - `src/lib/csrf.ts`: HMAC-signed double-submit tokens with constant-time compare.
 - `src/lib/rate-limit.ts`: in-memory token bucket (+ Upstash interface ready).
 - `src/lib/audit.ts`: audit-log writer with silent failure logging.

@@ -3,16 +3,24 @@ import { NextResponse, type NextRequest } from "next/server";
 import { rateLimit, sweepExpired } from "./lib/rate-limit.ts";
 
 /**
- * Next.js middleware — runs on every request before the route handler.
+ * Next.js Proxy — runs on every request before the route handler.
+ * (Replaces the legacy `middleware.ts` convention deprecated in Next 16.)
  *
  * Responsibilities:
  *   - Attach security headers (CSP, HSTS, X-Frame-Options, etc.).
  *   - Rate-limit per-IP. Read-heavy routes get a generous bucket; API
  *     writes are tighter.
  *
+ * What this layer must NEVER do:
+ *   - Auth checks. Server Actions bypass matcher exclusions, so any auth
+ *     gate here would be unsafe. Auth lives in `src/lib/api-handler.ts`
+ *     via requireSession() + requirePermission(), enforced per-handler.
+ *   - DB or secret reads beyond typed env. Proxy can deploy to the edge
+ *     and should not share globals with the app.
+ *
  * CSRF verification is done by each POST/PATCH/DELETE route via the
- * api-handler wrapper rather than in middleware — middleware cannot
- * easily share secrets with `getServerEnv()` on the edge runtime.
+ * api-handler wrapper rather than in the proxy — by design, so every
+ * mutation path gets the check regardless of matcher configuration.
  */
 
 const PROD = process.env.NODE_ENV === "production";
@@ -69,7 +77,7 @@ function isMutating(method: string): boolean {
   return method !== "GET" && method !== "HEAD" && method !== "OPTIONS";
 }
 
-export function middleware(request: NextRequest): NextResponse {
+export function proxy(request: NextRequest): NextResponse {
   const { pathname } = request.nextUrl;
 
   // Periodic sweep to keep the in-memory rate-limit store bounded.
@@ -103,7 +111,7 @@ export function middleware(request: NextRequest): NextResponse {
 }
 
 export const config = {
-  // Skip middleware on static assets and the Next.js internal routes.
+  // Skip the proxy on static assets and Next.js internal routes.
   matcher: [
     "/((?!_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml).*)",
   ],

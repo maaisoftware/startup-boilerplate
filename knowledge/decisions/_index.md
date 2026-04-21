@@ -23,4 +23,4 @@ Template: **[[_template]]**.
 
 - [[0001-monorepo-structure]] — Turborepo + pnpm workspaces, why.
 - [[0002-abstraction-layers]] — interface + adapter + factory pattern.
-- [[0003-security-model]] — defense-in-depth approach (filled in PR #6).
+- [[0003-proxy-vs-auth]] — Next.js Proxy is network-boundary only; auth stays per-handler.

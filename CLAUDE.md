@@ -3,6 +3,7 @@
 Welcome, agent. This repository is a **production-grade, AI-native monorepo template**. Every rule below exists for a reason — read it before you write anything.
 
 ## What this repo is
+
 A reusable starter kit. Cloning it should give a team everything needed to ship a new client product: monorepo, DB, auth, CMS, payments, observability, CI/CD, and documentation — all wired correctly and tested.
 
 Every third-party service hides behind an **adapter + factory**. Swapping providers is an env var change, not a code rewrite.
@@ -17,30 +18,31 @@ Every third-party service hides behind an **adapter + factory**. Swapping provid
 6. **Every meaningful folder has a `CLAUDE.md`.** When you add a new top-level folder, add its `CLAUDE.md` in the same PR. Stale or missing CLAUDE.md files are bugs.
 7. **Commits are atomic and conventional.** Format: `type(scope): subject`. Types: `feat`, `fix`, `docs`, `test`, `chore`, `refactor`, `perf`, `ci`, `build`, `style`. Commitlint rejects anything else.
 8. **Tests run before merge.** No PR to `develop` merges without `pnpm lint && pnpm typecheck && pnpm test` passing. E2E suite runs against `develop` on every push.
+9. **The Next.js Proxy layer (`apps/web/src/proxy.ts`) is network-boundary work only — never auth.** Security headers, CSP, rate limits, CORS, redirects, rewrites belong there. Auth and RBAC live in `apps/web/src/lib/api-handler.ts` via `requireSession()` + `requirePermission()`, called per-handler. Reason: Server Actions bypass Proxy matcher exclusions, so auth in the Proxy is structurally non-uniform. See [knowledge/decisions/0003-proxy-vs-auth.md](./knowledge/decisions/0003-proxy-vs-auth.md). The file was renamed from `middleware.ts` when Next 16 deprecated that convention — fix stray references when you see them.
 
 ## Directory map
 
-| Path | Purpose |
-|---|---|
-| `apps/web/` | Next.js App Router — the only app (for now). Proxy and UI live here. |
-| `packages/config/` | Shared TS/ESLint/Prettier/Vitest presets. |
-| `packages/types/` | Shared TypeScript types + Zod schemas (added PR #2). |
-| `packages/logger/` | Logger abstraction (PR #3). |
-| `packages/analytics/` | Analytics abstraction (PR #3). |
-| `packages/feature-flags/` | Feature-flag abstraction (PR #3). |
-| `packages/db/` | Drizzle schema, migrations, seed scripts (PR #4). |
-| `packages/auth/` | Auth utilities and RBAC DSL (PR #5). |
-| `packages/api-client/` | Typed client that only hits `/api/*` (PR #6). |
-| `packages/cms/` | CMS abstraction (PR #7). |
-| `packages/payments/` | Payments abstraction, feature-flagged (PR #8). |
-| `packages/automations/` | Workflow abstraction (PR #8). |
-| `packages/docs-engine/` | Documentation abstraction (PR #8). |
-| `packages/ui/` | Headless UI primitives + `<PageShell>` + `<JsonLd>` (PR #9). |
-| `supabase/` | Migrations, edge functions, `config.toml`. |
-| `infra/docker/` | Dockerfiles and compose files. |
-| `knowledge/` | Obsidian-style vault. ADRs live here. |
-| `.github/` | CI/CD workflows, issue/PR templates. |
-| `.claude/` | Shared skills and slash commands. |
+| Path                      | Purpose                                                              |
+| ------------------------- | -------------------------------------------------------------------- |
+| `apps/web/`               | Next.js App Router — the only app (for now). Proxy and UI live here. |
+| `packages/config/`        | Shared TS/ESLint/Prettier/Vitest presets.                            |
+| `packages/types/`         | Shared TypeScript types + Zod schemas (added PR #2).                 |
+| `packages/logger/`        | Logger abstraction (PR #3).                                          |
+| `packages/analytics/`     | Analytics abstraction (PR #3).                                       |
+| `packages/feature-flags/` | Feature-flag abstraction (PR #3).                                    |
+| `packages/db/`            | Drizzle schema, migrations, seed scripts (PR #4).                    |
+| `packages/auth/`          | Auth utilities and RBAC DSL (PR #5).                                 |
+| `packages/api-client/`    | Typed client that only hits `/api/*` (PR #6).                        |
+| `packages/cms/`           | CMS abstraction (PR #7).                                             |
+| `packages/payments/`      | Payments abstraction, feature-flagged (PR #8).                       |
+| `packages/automations/`   | Workflow abstraction (PR #8).                                        |
+| `packages/docs-engine/`   | Documentation abstraction (PR #8).                                   |
+| `packages/ui/`            | Headless UI primitives + `<PageShell>` + `<JsonLd>` (PR #9).         |
+| `supabase/`               | Migrations, edge functions, `config.toml`.                           |
+| `infra/docker/`           | Dockerfiles and compose files.                                       |
+| `knowledge/`              | Obsidian-style vault. ADRs live here.                                |
+| `.github/`                | CI/CD workflows, issue/PR templates.                                 |
+| `.claude/`                | Shared skills and slash commands.                                    |
 
 ## How to work here
 
@@ -89,6 +91,7 @@ Every third-party service hides behind an **adapter + factory**. Swapping provid
 ## Skills and slash commands
 
 `.claude/skills/` contains shared agent skills. Top ones:
+
 - `add-feature` — scaffolds a new feature end-to-end.
 - `add-adapter` — adds an adapter to any abstraction layer.
 - `write-adr` — creates a dated ADR in `knowledge/decisions/`.

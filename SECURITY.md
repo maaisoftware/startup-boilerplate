@@ -35,7 +35,7 @@ The boilerplate assumes:
 - **API proxy** (`apps/web/src/app/api/*`): the only path from browser to upstream services. Enforces auth, RBAC, rate limits, CSRF, Zod input validation. Rewrites upstream errors so identities do not leak.
 - **Supabase RLS** on every table. Policies derive from the RBAC DSL in `packages/auth`.
 - **Audit log**: every mutation writes an immutable record (`audit_log` table, RLS forbids UPDATE/DELETE for everyone including service role).
-- **CSP**, **HSTS**, and other security headers via Next.js middleware.
+- **CSP**, **HSTS**, and other security headers via Next.js Proxy (`apps/web/src/proxy.ts`).
 - **Zod env validation** at boot. Missing required env vars crash the app instead of running with undefined values.
 - **Secret scanning** in CI (Gitleaks + GitHub secret scanning).
 - **Dependency auditing** in CI (`pnpm audit` high+).
