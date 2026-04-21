@@ -1,0 +1,6 @@
+-- Supabase seed file.
+--
+-- Runs automatically on `supabase db reset`. Empty for now — real seed
+-- content (demo posts, pages, sample admin user) lands with PR #4 when
+-- the schema exists. Keeping the file in place so the CLI does not warn
+-- about a missing seed path declared in config.toml.
