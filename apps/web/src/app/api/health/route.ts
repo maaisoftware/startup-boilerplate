@@ -7,11 +7,12 @@ import { getServerEnv } from "@startup-boilerplate/env/server";
  * Liveness probe.
  *
  * Returns 200 if the app is up. Does NOT verify downstream services
- * (DB, Supabase, etc.) — that's the readiness probe introduced in PR #6.
+ * (DB, Supabase, etc.) — that's the readiness probe added alongside
+ * real load paths.
  *
- * Reading the env via the typed singletons guarantees the response shape
- * stays honest even if a deploy is missing required variables (we crash
- * at boot before this handler would ever run).
+ * Intentionally does not use the apiHandler wrapper — this route is the
+ * first to respond before any bootstrapping has completed, so any guard
+ * dependency would become a liveness false-negative.
  */
 export function GET(): NextResponse {
   const clientEnv = getClientEnv();
@@ -26,9 +27,7 @@ export function GET(): NextResponse {
     },
     {
       status: 200,
-      headers: {
-        "Cache-Control": "no-store",
-      },
+      headers: { "Cache-Control": "no-store" },
     },
   );
 }
