@@ -9,11 +9,21 @@ test.describe("smoke", () => {
   test("home page loads with JSON-LD and OG metadata", async ({ page }) => {
     const response = await page.goto("/");
     expect(response?.status()).toBe(200);
-    await expect(page).toHaveTitle(/Startup Boilerplate/);
+    // Root page's own <title> comes from its `metadata.title` export
+    // ("Dashboard" in v0.1). The root layout's template would suffix the
+    // app name for nested routes; matching either here so the assertion
+    // doesn't lock us into a specific composition.
+    await expect(page).toHaveTitle(/Dashboard|Startup Boilerplate/);
     const ogTitle = await page
       .locator('meta[property="og:title"]')
       .getAttribute("content");
-    expect(ogTitle).toBeTruthy();
+    expect(ogTitle).toMatch(/Startup Boilerplate/);
+    // JSON-LD presence — Organization schema from the Dashboard page.
+    const jsonLd = await page
+      .locator('script[type="application/ld+json"]')
+      .first()
+      .textContent();
+    expect(jsonLd).toContain('"@type":"Organization"');
   });
 
   test("blog index renders seeded posts and has breadcrumb JSON-LD", async ({
