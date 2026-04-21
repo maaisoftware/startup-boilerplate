@@ -1,0 +1,28 @@
+{
+  "name": "@startup-boilerplate/api-client",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Typed fetch client that only hits /api/*. The browser never talks to upstream services directly.",
+  "license": "MIT",
+  "type": "module",
+  "main": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "lint": "eslint . --max-warnings 0",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "clean": "rm -rf .turbo coverage node_modules/.cache"
+  },
+  "dependencies": {
+    "zod": "4.3.6"
+  },
+  "devDependencies": {
+    "@startup-boilerplate/config": "workspace:*",
+    "@types/node": "25.6.0",
+    "eslint": "9.39.4",
+    "typescript": "6.0.3",
+    "vitest": "4.1.4"
+  }
+}
