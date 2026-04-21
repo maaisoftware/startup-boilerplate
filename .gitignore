@@ -4,6 +4,9 @@
 !.env.example
 .env.local
 .env.*.local
+# Apps/* .env.local files are auto-generated from the root by scripts/sync-env.mjs
+apps/*/.env.local
+apps/*/.env.*.local
 
 # ─── Dependencies ───────────────────────────────────────────────────────────
 node_modules/

@@ -1,0 +1,43 @@
+{
+  "name": "@startup-boilerplate/ui",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Unstyled React primitives + SEO components (PageShell, JsonLd). Every project themes them.",
+  "license": "MIT",
+  "type": "module",
+  "main": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./seo": "./src/seo/index.ts"
+  },
+  "scripts": {
+    "lint": "eslint . --max-warnings 0",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "clean": "rm -rf .turbo coverage node_modules/.cache"
+  },
+  "dependencies": {
+    "clsx": "2.1.1",
+    "tailwind-merge": "3.5.0"
+  },
+  "peerDependencies": {
+    "react": "19.x",
+    "react-dom": "19.x"
+  },
+  "devDependencies": {
+    "@startup-boilerplate/config": "workspace:*",
+    "@testing-library/jest-dom": "6.9.1",
+    "@testing-library/react": "16.3.2",
+    "@types/node": "25.6.0",
+    "@types/react": "19.2.14",
+    "@types/react-dom": "19.2.3",
+    "@types/jest-axe": "3.5.9",
+    "eslint": "9.39.4",
+    "jest-axe": "10.0.0",
+    "jsdom": "29.0.2",
+    "react": "19.2.5",
+    "react-dom": "19.2.5",
+    "typescript": "6.0.3",
+    "vitest": "4.1.4"
+  }
+}
