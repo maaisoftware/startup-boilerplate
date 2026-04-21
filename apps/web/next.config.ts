@@ -39,8 +39,14 @@ const nextConfig: NextConfig = {
     ],
   },
   transpilePackages: [
+    "@startup-boilerplate/api-client",
+    "@startup-boilerplate/auth",
+    "@startup-boilerplate/cms",
     "@startup-boilerplate/config",
+    "@startup-boilerplate/db",
     "@startup-boilerplate/env",
+    "@startup-boilerplate/logger",
+    "@startup-boilerplate/ui",
   ],
 };
 

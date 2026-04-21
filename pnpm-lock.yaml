@@ -52,6 +52,9 @@ importers:
       "@startup-boilerplate/auth":
         specifier: workspace:*
         version: link:../../packages/auth
+      "@startup-boilerplate/cms":
+        specifier: workspace:*
+        version: link:../../packages/cms
       "@startup-boilerplate/config":
         specifier: workspace:*
         version: link:../../packages/config
@@ -64,6 +67,9 @@ importers:
       "@startup-boilerplate/logger":
         specifier: workspace:*
         version: link:../../packages/logger
+      "@startup-boilerplate/ui":
+        specifier: workspace:*
+        version: link:../../packages/ui
       next:
         specifier: 16.2.4
         version: 16.2.4(@opentelemetry/api@1.9.1)(@playwright/test@1.59.1)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
