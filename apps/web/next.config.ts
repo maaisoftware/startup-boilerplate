@@ -19,7 +19,8 @@ import type { NextConfig } from "next";
  * - `experimental.typedRoutes`: catches broken links at build time.
  *
  * Additional security headers (CSP, HSTS, X-Frame-Options, Referrer-Policy, etc.)
- * are applied in middleware at runtime — see PR #6 (apps/web/src/middleware.ts).
+ * are applied in the Proxy layer at runtime — see `apps/web/src/proxy.ts`.
+ * (Proxy replaced the deprecated `middleware` file convention in Next 16.)
  */
 const nextConfig: NextConfig = {
   reactStrictMode: true,

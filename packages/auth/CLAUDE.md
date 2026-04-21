@@ -25,7 +25,7 @@ Two related concerns in one package:
 ## Forbidden patterns
 
 - Reading `supabase.auth.getSession()` directly in app code. Use `getSession()` so the role field is always present.
-- Catching `UnauthorizedError` anywhere except the API-proxy middleware that maps it to HTTP 401.
+- Catching `UnauthorizedError` anywhere except the `apiHandler` wrapper (`apps/web/src/lib/api-handler.ts`) that maps it to HTTP 401.
 - Storing roles in JWT claims. We resolve from `user_roles` so admin changes take effect immediately.
 
 ## Common tasks

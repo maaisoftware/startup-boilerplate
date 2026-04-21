@@ -34,15 +34,15 @@ The browser **never** calls upstream services directly. That's the central secur
 
 Every third-party concern hides behind an abstraction:
 
-| Abstraction | Default adapter | Swappable to |
-|---|---|---|
-| `@startup-boilerplate/logger` | Sentry | Console (local), Datadog, LogTape |
-| `@startup-boilerplate/analytics` | PostHog | Mixpanel, GA4, noop |
-| `@startup-boilerplate/cms` | Built-in Supabase | Sanity, Builder.io, Contentful |
-| `@startup-boilerplate/payments` | Stripe | Lemon Squeezy, Paddle, noop |
-| `@startup-boilerplate/automations` | n8n | Make, Zapier, Trigger.dev |
-| `@startup-boilerplate/docs-engine` | Local vault | Notion, Confluence |
-| `@startup-boilerplate/feature-flags` | PostHog | Env-based, LaunchDarkly, Unleash |
+| Abstraction                          | Default adapter   | Swappable to                      |
+| ------------------------------------ | ----------------- | --------------------------------- |
+| `@startup-boilerplate/logger`        | Sentry            | Console (local), Datadog, LogTape |
+| `@startup-boilerplate/analytics`     | PostHog           | Mixpanel, GA4, noop               |
+| `@startup-boilerplate/cms`           | Built-in Supabase | Sanity, Builder.io, Contentful    |
+| `@startup-boilerplate/payments`      | Stripe            | Lemon Squeezy, Paddle, noop       |
+| `@startup-boilerplate/automations`   | n8n               | Make, Zapier, Trigger.dev         |
+| `@startup-boilerplate/docs-engine`   | Local vault       | Notion, Confluence                |
+| `@startup-boilerplate/feature-flags` | PostHog           | Env-based, LaunchDarkly, Unleash  |
 
 Every abstraction has a **contract test suite**: any new adapter must pass it before landing.
 
@@ -51,7 +51,7 @@ Every abstraction has a **contract test suite**: any new adapter must pass it be
 - [[api-proxy]]: every outbound call validated, rate-limited, audit-logged.
 - Supabase RLS policies on every table: even if the proxy is bypassed, the DB refuses.
 - [[security-model#RBAC]]: policy DSL in `packages/auth` is the single source of truth; it generates API-layer guards AND feeds RLS policy generation.
-- CSP + security headers via Next.js middleware.
+- CSP + security headers via the Next.js Proxy layer (`apps/web/src/proxy.ts`). See [[../decisions/0003-proxy-vs-auth]] for why auth lives per-handler, not here.
 - CSRF tokens on all state-changing requests.
 - Input validation with Zod at every entry point.
 - Audit log table written on every mutation. Immutable.

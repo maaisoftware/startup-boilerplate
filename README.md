@@ -97,7 +97,7 @@ Every top-level folder ships its own **`CLAUDE.md`** — the first thing any cod
 - Browser never calls upstream services directly. Every request routes through `/api/*`.
 - Supabase RLS policies on every table, enforced even if the proxy is bypassed.
 - RBAC policy DSL is the single source of truth — generates both API-layer guards and (where feasible) RLS policies.
-- CSP, HSTS, and other headers applied via Next.js middleware.
+- CSP, HSTS, and other headers applied via Next.js Proxy (`apps/web/src/proxy.ts`).
 - CSRF tokens on every state-changing request.
 - Audit log table on every mutation. Immutable.
 - See [`SECURITY.md`](./SECURITY.md) for responsible-disclosure policy.

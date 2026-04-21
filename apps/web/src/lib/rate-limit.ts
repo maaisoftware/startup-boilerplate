@@ -61,8 +61,8 @@ export function rateLimit(
 }
 
 /**
- * Best-effort cleanup of expired entries. Called lazily from the middleware
- * so we don't need a timer — memory stays bounded under sustained load.
+ * Best-effort cleanup of expired entries. Called lazily from the Proxy
+ * layer so we don't need a timer — memory stays bounded under sustained load.
  */
 export function sweepExpired(now: number = Date.now()): number {
   let removed = 0;
