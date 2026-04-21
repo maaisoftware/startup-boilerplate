@@ -8,6 +8,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
+- `@startup-boilerplate/env`: Zod-validated environment singletons with typed server/client split, 100% test coverage, boot-time validation via Next.js instrumentation hook (PR #2).
+- `scripts/sync-env.mjs`: synchronises the root `.env.local` into each app directory via a `postinstall` hook so Next.js reads from one canonical source (PR #2).
+- `packages/config/tsconfig/next.json`: `allowImportingTsExtensions` enabled so workspace packages can be consumed from source without a build step (PR #2).
 - Monorepo scaffold: Turborepo + pnpm workspaces, Node 22 LTS, TS 6.0, ESLint 9.39, Prettier 3.8 (PR #1).
 - `apps/web`: Next.js 16 App Router with Tailwind v4, standalone output, `/api/health` liveness probe (PR #1).
 - `packages/config`: shared TS / ESLint / Prettier / Vitest presets (PR #1).
