@@ -11,6 +11,7 @@
     "allowJs": true,
     "noEmit": true,
     "verbatimModuleSyntax": false,
+    "allowImportingTsExtensions": true,
     "plugins": [{ "name": "next" }],
     "types": ["node"]
   },

@@ -29,6 +29,7 @@ module.exports = {
       [
         // packages
         "config",
+        "env",
         "types",
         "logger",
         "analytics",
