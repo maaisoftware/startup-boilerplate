@@ -44,6 +44,8 @@
     "@commitlint/cli": "20.5.0",
     "@commitlint/config-conventional": "20.5.0",
     "@ianvs/prettier-plugin-sort-imports": "4.7.1",
+    "@startup-boilerplate/config": "workspace:*",
+    "eslint": "9.39.4",
     "husky": "9.1.7",
     "lint-staged": "16.4.0",
     "prettier": "3.8.3",
@@ -53,11 +55,11 @@
   },
   "lint-staged": {
     "*.{ts,tsx,js,jsx}": [
-      "prettier --write",
-      "eslint --fix"
+      "pnpm exec prettier --write",
+      "pnpm exec eslint --fix --no-warn-ignored"
     ],
     "*.{json,md,yml,yaml,css}": [
-      "prettier --write"
+      "pnpm exec prettier --write"
     ]
   }
 }

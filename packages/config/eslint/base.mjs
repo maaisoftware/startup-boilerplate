@@ -2,6 +2,7 @@
 import js from "@eslint/js";
 import tseslint from "typescript-eslint";
 import prettier from "eslint-config-prettier";
+import globals from "globals";
 
 /**
  * Flat-config ESLint preset shared by every package.
@@ -70,10 +71,15 @@ export default [
       "@typescript-eslint/explicit-module-boundary-types": "off",
     },
   },
-  // Plain JS/MJS files (configs, scripts) skip type-aware rules entirely.
+  // Plain JS/MJS files (configs, scripts) skip type-aware rules entirely
+  // and get Node.js globals by default — these files are always run by
+  // Node or a Node-compatible bundler, never shipped to the browser.
   {
     files: ["**/*.js", "**/*.mjs", "**/*.cjs"],
     languageOptions: {
+      globals: {
+        ...globals.node,
+      },
       parserOptions: {
         projectService: false,
       },

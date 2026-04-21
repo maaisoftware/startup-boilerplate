@@ -20,7 +20,12 @@
     "./vitest/node": "./vitest/node.mjs",
     "./vitest/react": "./vitest/react.mjs"
   },
-  "files": ["tsconfig", "eslint", "prettier", "vitest"],
+  "files": [
+    "tsconfig",
+    "eslint",
+    "prettier",
+    "vitest"
+  ],
   "scripts": {
     "lint": "echo \"config-only package — no lint target\"",
     "typecheck": "echo \"config-only package — no typecheck target\"",
@@ -37,6 +42,7 @@
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-react": "7.37.5",
     "eslint-plugin-react-hooks": "7.1.1",
+    "globals": "17.5.0",
     "prettier": "3.8.3",
     "prettier-plugin-tailwindcss": "0.7.2",
     "typescript-eslint": "8.59.0"
