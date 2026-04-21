@@ -1,0 +1,14 @@
+{
+  "recommendations": [
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "bradlc.vscode-tailwindcss",
+    "ms-azuretools.vscode-docker",
+    "vivaxy.vscode-conventional-commits",
+    "foam.foam-vscode",
+    "yzhang.markdown-all-in-one",
+    "unifiedjs.vscode-mdx",
+    "vitest.explorer",
+    "ms-playwright.playwright"
+  ]
+}
