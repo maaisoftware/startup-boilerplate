@@ -1,0 +1,29 @@
+# Normalize line endings to LF in the repository.
+# Each developer's checkout converts to their OS line endings automatically.
+* text=auto eol=lf
+
+# Binary formats — never touch
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.eot binary
+*.pdf binary
+*.zip binary
+*.gz binary
+*.tar binary
+
+# Shell scripts must stay LF regardless of OS
+*.sh text eol=lf
+*.bash text eol=lf
+
+# PowerShell scripts stay CRLF on Windows
+*.ps1 text eol=crlf
+
+# Lockfiles — preserve exactly as generated
+pnpm-lock.yaml -diff
+*.lock linguist-generated=true

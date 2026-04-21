@@ -1,0 +1,64 @@
+name: Bug report
+description: File a reproducible bug
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting! Please give us enough to reproduce.
+
+  - type: input
+    id: version
+    attributes:
+      label: Version / commit
+      description: Output of `git rev-parse HEAD` or the release tag you are on.
+      placeholder: "v0.1.0 or 758e63e"
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true
+
+  - type: textarea
+    id: repro
+    attributes:
+      label: Minimal reproduction
+      description: Exact commands, files, or a link to a minimal repro repo.
+      placeholder: |
+        1. pnpm install
+        2. pnpm dev
+        3. …
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs / errors
+      render: shell
+
+  - type: dropdown
+    id: env
+    attributes:
+      label: Environment
+      options:
+        - Local (macOS)
+        - Local (Linux)
+        - Local (Windows)
+        - CI (GitHub Actions)
+        - Vercel preview
+        - Vercel production
+        - Self-hosted
+    validations:
+      required: true

@@ -1,0 +1,65 @@
+# Production-style self-host compose.
+#
+# `docker compose up --build` starts the full stack locally:
+#   - web: Next.js standalone server
+#   - db: Postgres (bring-your-own Supabase schema via migrations)
+#   - mailpit: SMTP testing server (replaces Supabase's inbucket)
+#
+# For local dev, prefer `pnpm supabase:start` + `pnpm dev` (native, faster
+# feedback loop). This compose file is for self-hosted deployments and for
+# the `deploy` GitHub Actions job that bakes the image.
+#
+# Supabase Auth, Storage, and PostgREST are intentionally omitted here —
+# self-hosting the full Supabase stack is a separate concern documented in
+# knowledge/architecture/deploy.md. For Supabase Cloud deploys, the web
+# service alone is enough; set SUPABASE_* env vars to cloud values.
+
+name: startup-boilerplate
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: infra/docker/web.Dockerfile
+      args:
+        NEXT_PUBLIC_APP_URL: ${NEXT_PUBLIC_APP_URL:-http://localhost:3000}
+        NEXT_PUBLIC_APP_NAME: ${NEXT_PUBLIC_APP_NAME:-Startup Boilerplate}
+    env_file: [.env.local]
+    ports: ["3000:3000"]
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+    healthcheck:
+      test:
+        ["CMD-SHELL", "wget -qO- http://127.0.0.1:3000/api/health || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+
+  db:
+    image: postgres:17.6-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    ports: ["54422:5432"]
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  mailpit:
+    image: axllent/mailpit:v1.22
+    ports:
+      - "54424:8025" # web UI
+      - "54425:1025" # smtp
+    restart: unless-stopped
+
+volumes:
+  db_data:
