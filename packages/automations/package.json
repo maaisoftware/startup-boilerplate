@@ -1,0 +1,30 @@
+{
+  "name": "@startup-boilerplate/automations",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Workflow automations abstraction. Noop + n8n webhook adapters.",
+  "license": "MIT",
+  "type": "module",
+  "main": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./interfaces": "./src/interfaces.ts",
+    "./contract": "./src/contract.ts"
+  },
+  "scripts": {
+    "lint": "eslint . --max-warnings 0",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "clean": "rm -rf .turbo coverage node_modules/.cache"
+  },
+  "dependencies": {
+    "@startup-boilerplate/env": "workspace:*"
+  },
+  "devDependencies": {
+    "@startup-boilerplate/config": "workspace:*",
+    "@types/node": "25.6.0",
+    "eslint": "9.39.4",
+    "typescript": "6.0.3",
+    "vitest": "4.1.4"
+  }
+}
