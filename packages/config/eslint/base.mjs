@@ -71,6 +71,27 @@ export default [
       "@typescript-eslint/explicit-module-boundary-types": "off",
     },
   },
+  // Test files: Vitest matcher helpers (objectContaining, stringContaining, etc.)
+  // return `any`, which trips type-aware no-unsafe-* rules without any real
+  // safety win. Disable those rules in tests across the whole monorepo.
+  {
+    files: [
+      "**/*.test.ts",
+      "**/*.test.tsx",
+      "**/*.spec.ts",
+      "**/*.spec.tsx",
+      "**/test/**/*.ts",
+      "**/tests/**/*.ts",
+      "**/contract.ts",
+    ],
+    rules: {
+      "@typescript-eslint/no-unsafe-assignment": "off",
+      "@typescript-eslint/no-unsafe-argument": "off",
+      "@typescript-eslint/no-unsafe-member-access": "off",
+      "@typescript-eslint/no-unsafe-call": "off",
+      "@typescript-eslint/no-unsafe-return": "off",
+    },
+  },
   // Plain JS/MJS files (configs, scripts) skip type-aware rules entirely
   // and get Node.js globals by default — these files are always run by
   // Node or a Node-compatible bundler, never shipped to the browser.

@@ -22,5 +22,5 @@ Template: **[[_template]]**.
 ## Index
 
 - [[0001-monorepo-structure]] — Turborepo + pnpm workspaces, why.
-- [[0002-abstraction-layers]] — interface + adapter + factory pattern (filled in PR #3).
+- [[0002-abstraction-layers]] — interface + adapter + factory pattern.
 - [[0003-security-model]] — defense-in-depth approach (filled in PR #6).

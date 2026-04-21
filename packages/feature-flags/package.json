@@ -1,0 +1,34 @@
+{
+  "name": "@startup-boilerplate/feature-flags",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Feature-flag abstraction. Env + PostHog adapters. Default is env-based so flags flip with a .env change.",
+  "license": "MIT",
+  "type": "module",
+  "main": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./interfaces": "./src/interfaces.ts",
+    "./contract": "./src/contract.ts"
+  },
+  "scripts": {
+    "lint": "eslint . --max-warnings 0",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "test:contract": "vitest run --dir src/adapters",
+    "clean": "rm -rf .turbo coverage node_modules/.cache"
+  },
+  "dependencies": {
+    "@startup-boilerplate/env": "workspace:*",
+    "posthog-node": "5.29.2"
+  },
+  "devDependencies": {
+    "@startup-boilerplate/config": "workspace:*",
+    "@types/node": "25.6.0",
+    "eslint": "9.39.4",
+    "typescript": "6.0.3",
+    "vitest": "4.1.4"
+  }
+}
