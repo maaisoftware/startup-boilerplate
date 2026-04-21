@@ -1,0 +1,39 @@
+{
+  "name": "@startup-boilerplate/db",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Drizzle schema mirroring the Supabase DB. RLS policies live in supabase/migrations and are verified by this package's integration tests.",
+  "license": "MIT",
+  "type": "module",
+  "main": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./schema": "./src/schema/index.ts",
+    "./client": "./src/client.ts",
+    "./seed": "./src/seed.ts"
+  },
+  "scripts": {
+    "lint": "eslint . --max-warnings 0",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:integration": "vitest run --dir test/integration",
+    "seed": "tsx src/seed.ts",
+    "clean": "rm -rf .turbo coverage node_modules/.cache"
+  },
+  "dependencies": {
+    "@startup-boilerplate/env": "workspace:*",
+    "@supabase/supabase-js": "2.104.0",
+    "drizzle-orm": "0.45.2",
+    "postgres": "3.4.9"
+  },
+  "devDependencies": {
+    "@startup-boilerplate/config": "workspace:*",
+    "@types/node": "25.6.0",
+    "drizzle-kit": "0.31.10",
+    "eslint": "9.39.4",
+    "tsx": "4.21.0",
+    "typescript": "6.0.3",
+    "vitest": "4.1.4"
+  }
+}
