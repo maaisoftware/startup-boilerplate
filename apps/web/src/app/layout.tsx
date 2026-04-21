@@ -1,10 +1,13 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 
+import { getClientEnv } from "@startup-boilerplate/env/client";
+
 import "./globals.css";
 
-const appName = process.env["NEXT_PUBLIC_APP_NAME"] ?? "Startup Boilerplate";
-const appUrl = process.env["NEXT_PUBLIC_APP_URL"] ?? "http://localhost:3000";
+const clientEnv = getClientEnv();
+const appName = clientEnv.NEXT_PUBLIC_APP_NAME;
+const appUrl = clientEnv.NEXT_PUBLIC_APP_URL;
 
 export const metadata: Metadata = {
   metadataBase: new URL(appUrl),
