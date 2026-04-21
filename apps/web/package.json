@@ -20,10 +20,12 @@
   "dependencies": {
     "@startup-boilerplate/api-client": "workspace:*",
     "@startup-boilerplate/auth": "workspace:*",
+    "@startup-boilerplate/cms": "workspace:*",
     "@startup-boilerplate/config": "workspace:*",
     "@startup-boilerplate/db": "workspace:*",
     "@startup-boilerplate/env": "workspace:*",
     "@startup-boilerplate/logger": "workspace:*",
+    "@startup-boilerplate/ui": "workspace:*",
     "next": "16.2.4",
     "react": "19.2.5",
     "react-dom": "19.2.5",
