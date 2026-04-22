@@ -179,6 +179,55 @@ describe("serverSchema", () => {
     });
     expect(result.success).toBe(false);
   });
+
+  it("accepts PAYMENTS_PROVIDER=paddle with api key + webhook secret", () => {
+    const result = serverSchema.safeParse({
+      ...baseServer,
+      PAYMENTS_PROVIDER: "paddle",
+      PADDLE_API_KEY: "pdl-k",
+      PADDLE_WEBHOOK_SECRET: "pdl-wh",
+      PADDLE_ENDPOINT: "https://sandbox-api.paddle.com",
+    });
+    expect(result.success).toBe(true);
+    if (result.success) {
+      expect(result.data.PAYMENTS_PROVIDER).toBe("paddle");
+      expect(result.data.PADDLE_API_KEY).toBe("pdl-k");
+      expect(result.data.PADDLE_ENDPOINT).toBe(
+        "https://sandbox-api.paddle.com",
+      );
+    }
+  });
+
+  it("accepts PAYMENTS_PROVIDER=lemonsqueezy with api key + webhook secret + store id", () => {
+    const result = serverSchema.safeParse({
+      ...baseServer,
+      PAYMENTS_PROVIDER: "lemonsqueezy",
+      LEMONSQUEEZY_API_KEY: "ls-k",
+      LEMONSQUEEZY_WEBHOOK_SECRET: "ls-wh",
+      LEMONSQUEEZY_STORE_ID: "42",
+    });
+    expect(result.success).toBe(true);
+    if (result.success) {
+      expect(result.data.PAYMENTS_PROVIDER).toBe("lemonsqueezy");
+      expect(result.data.LEMONSQUEEZY_STORE_ID).toBe("42");
+    }
+  });
+
+  it("rejects a malformed PADDLE_ENDPOINT", () => {
+    const result = serverSchema.safeParse({
+      ...baseServer,
+      PADDLE_ENDPOINT: "not-a-url",
+    });
+    expect(result.success).toBe(false);
+  });
+
+  it("rejects an unknown PAYMENTS_PROVIDER", () => {
+    const result = serverSchema.safeParse({
+      ...baseServer,
+      PAYMENTS_PROVIDER: "braintree",
+    });
+    expect(result.success).toBe(false);
+  });
 });
 
 describe("clientSchema", () => {
