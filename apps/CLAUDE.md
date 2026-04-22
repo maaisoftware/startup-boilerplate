@@ -2,7 +2,7 @@
 
 ## Purpose
 
-User-facing applications. Today there is only `apps/web`. Future additions (`apps/admin`, `apps/mobile`, `apps/docs`) will each live in their own subdirectory with their own `CLAUDE.md`.
+User-facing applications. Today: `apps/web` (Next.js frontend on port 3000) and `apps/docs` (Docusaurus documentation site on port 3100). Future additions (`apps/admin`, `apps/mobile`) will each live in their own subdirectory with their own `CLAUDE.md`.
 
 ## Architectural rules
 
@@ -23,4 +23,5 @@ User-facing applications. Today there is only `apps/web`. Future additions (`app
 ## Pointers
 
 - Next.js app: `./web/CLAUDE.md`
+- Docs site (Docusaurus): `./docs/CLAUDE.md`
 - Root instructions: `../CLAUDE.md`
