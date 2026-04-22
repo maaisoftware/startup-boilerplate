@@ -228,6 +228,31 @@ describe("serverSchema", () => {
     });
     expect(result.success).toBe(false);
   });
+
+  it("accepts CMS_PROVIDER=sanity with project id + dataset", () => {
+    const result = serverSchema.safeParse({
+      ...baseServer,
+      CMS_PROVIDER: "sanity",
+      SANITY_PROJECT_ID: "proj-123",
+      SANITY_DATASET: "production",
+      SANITY_API_VERSION: "2024-10-01",
+      SANITY_API_TOKEN: "sk-token",
+    });
+    expect(result.success).toBe(true);
+    if (result.success) {
+      expect(result.data.CMS_PROVIDER).toBe("sanity");
+      expect(result.data.SANITY_PROJECT_ID).toBe("proj-123");
+      expect(result.data.SANITY_DATASET).toBe("production");
+    }
+  });
+
+  it("rejects an unknown CMS_PROVIDER", () => {
+    const result = serverSchema.safeParse({
+      ...baseServer,
+      CMS_PROVIDER: "contentful",
+    });
+    expect(result.success).toBe(false);
+  });
 });
 
 describe("clientSchema", () => {

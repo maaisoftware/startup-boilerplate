@@ -25,7 +25,7 @@ const analyticsProvider = z.enum(["noop", "posthog", "mixpanel", "ga4"]);
 const featureFlagsProvider = z.enum(["env", "posthog", "launchdarkly"]);
 const paymentsProvider = z.enum(["noop", "stripe", "paddle", "lemonsqueezy"]);
 const automationsProvider = z.enum(["noop", "n8n"]);
-const cmsProvider = z.enum(["builtin"]);
+const cmsProvider = z.enum(["builtin", "sanity"]);
 const docsEngineProvider = z.enum(["vault"]);
 const rateLimitProvider = z.enum(["memory", "upstash"]);
 
@@ -107,6 +107,12 @@ export const serverSchema = z.object({
   // LaunchDarkly (server)
   LAUNCHDARKLY_SDK_KEY: optionalNonEmpty,
   LAUNCHDARKLY_ENDPOINT: optionalUrl, // override for EU / relay proxy
+
+  // Sanity (server — required when CMS_PROVIDER=sanity)
+  SANITY_PROJECT_ID: optionalNonEmpty,
+  SANITY_DATASET: optionalNonEmpty, // e.g. "production"
+  SANITY_API_VERSION: optionalNonEmpty, // e.g. "2024-10-01"
+  SANITY_API_TOKEN: optionalNonEmpty, // required when dataset is not public
 
   // Stripe
   STRIPE_SECRET_KEY: optionalNonEmpty,
