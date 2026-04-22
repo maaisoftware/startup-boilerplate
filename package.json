@@ -64,5 +64,10 @@
     "*.{json,md,yml,yaml,css}": [
       "pnpm exec prettier --write"
     ]
+  },
+  "pnpm": {
+    "overrides": {
+      "webpack": "5.105.4"
+    }
   }
 }

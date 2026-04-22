@@ -44,6 +44,7 @@ module.exports = {
         "ui",
         // apps
         "web",
+        "docs",
         // cross-cutting
         "monorepo",
         "docker",

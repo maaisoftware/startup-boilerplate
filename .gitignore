@@ -20,6 +20,7 @@ out/
 .turbo/
 *.tsbuildinfo
 next-env.d.ts
+.docusaurus/
 
 # ─── Test & coverage ────────────────────────────────────────────────────────
 coverage/

@@ -20,19 +20,31 @@
     "AUTOMATIONS_PROVIDER",
     "CMS_PROVIDER",
     "DOCS_ENGINE_PROVIDER",
+    "DOCS_SITE_URL",
     "RATE_LIMIT_PROVIDER"
   ],
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
-      "outputs": [".next/**", "!.next/cache/**", "dist/**"],
+      "outputs": [
+        ".next/**",
+        "!.next/cache/**",
+        "dist/**",
+        "build/**",
+        "!build/cache/**"
+      ],
       "inputs": [
         "src/**",
         "app/**",
+        "docs/**",
+        "blog/**",
+        "static/**",
         "public/**",
         "package.json",
         "tsconfig.json",
         "next.config.*",
+        "docusaurus.config.*",
+        "sidebars.*",
         "tailwind.config.*",
         "postcss.config.*"
       ]
