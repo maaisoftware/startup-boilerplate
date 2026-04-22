@@ -1,0 +1,36 @@
+# Copy to terraform.tfvars and fill in. Never commit the real .tfvars.
+# For sensitive values, prefer Terraform Cloud workspace variables (marked
+# sensitive) or CI-provided env vars (TF_VAR_<name>) instead of a file on disk.
+
+app_name    = "startup-boilerplate"
+environment = "prod"
+site_url    = "https://example.com"
+domains     = ["example.com"]
+
+# Supabase
+supabase_organization_id   = "org-xxxxx"
+supabase_region            = "us-east-1"
+supabase_database_password = "<generated: openssl rand -base64 32>"
+supabase_access_token      = "<supabase PAT>"
+
+# Vercel
+vercel_team_id = null  # set for team accounts
+vercel_token   = "<vercel PAT>"
+
+# GitHub
+github_owner           = "acme"
+github_repo            = "acme/startup-boilerplate"
+github_repository_name = "startup-boilerplate"
+production_branch      = "main"
+
+# Cloudflare
+cloudflare_zone_id = "<zone id>"
+
+# Sentry
+sentry_organization = "acme"
+sentry_team         = "engineering"
+sentry_auth_token   = "<sentry internal integration token>"
+
+# App secrets
+auth_secret = "<openssl rand -base64 32>"
+csrf_secret = "<openssl rand -base64 32>"

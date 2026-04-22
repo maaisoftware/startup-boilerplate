@@ -47,6 +47,8 @@ module.exports = {
         // cross-cutting
         "monorepo",
         "docker",
+        "infra",
+        "terraform",
         "ci",
         "deps",
         "knowledge",

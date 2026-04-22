@@ -63,6 +63,18 @@ lerna-debug.log*
 Thumbs.db
 desktop.ini
 
+# ─── Terraform ──────────────────────────────────────────────────────────────
+.terraform/
+.terraform.lock.hcl
+*.tfstate
+*.tfstate.*
+*.tfplan
+crash.log
+crash.*.log
+# Never commit filled .tfvars — only the .example version is tracked.
+infra/terraform/**/*.tfvars
+!infra/terraform/**/*.tfvars.example
+
 # ─── Misc ───────────────────────────────────────────────────────────────────
 .cache/
 .parcel-cache/
