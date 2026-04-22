@@ -146,6 +146,39 @@ describe("serverSchema", () => {
     });
     expect(result.success).toBe(false);
   });
+
+  it("accepts FEATURE_FLAGS_PROVIDER=launchdarkly with SDK key", () => {
+    const result = serverSchema.safeParse({
+      ...baseServer,
+      FEATURE_FLAGS_PROVIDER: "launchdarkly",
+      LAUNCHDARKLY_SDK_KEY: "sdk-abc",
+      LAUNCHDARKLY_ENDPOINT: "https://relay.example.com",
+    });
+    expect(result.success).toBe(true);
+    if (result.success) {
+      expect(result.data.FEATURE_FLAGS_PROVIDER).toBe("launchdarkly");
+      expect(result.data.LAUNCHDARKLY_SDK_KEY).toBe("sdk-abc");
+      expect(result.data.LAUNCHDARKLY_ENDPOINT).toBe(
+        "https://relay.example.com",
+      );
+    }
+  });
+
+  it("rejects a malformed LAUNCHDARKLY_ENDPOINT", () => {
+    const result = serverSchema.safeParse({
+      ...baseServer,
+      LAUNCHDARKLY_ENDPOINT: "not-a-url",
+    });
+    expect(result.success).toBe(false);
+  });
+
+  it("rejects an unknown FEATURE_FLAGS_PROVIDER", () => {
+    const result = serverSchema.safeParse({
+      ...baseServer,
+      FEATURE_FLAGS_PROVIDER: "split",
+    });
+    expect(result.success).toBe(false);
+  });
 });
 
 describe("clientSchema", () => {

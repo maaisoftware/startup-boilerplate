@@ -2,6 +2,10 @@ import { getServerEnv } from "@startup-boilerplate/env/server";
 
 import { EnvFeatureFlags } from "./adapters/env.ts";
 import {
+  createFetchLaunchDarklyClient,
+  LaunchDarklyFeatureFlags,
+} from "./adapters/launchdarkly.ts";
+import {
   PostHogFeatureFlags,
   type PostHogFlagsClient,
 } from "./adapters/posthog.ts";
@@ -26,6 +30,20 @@ export async function getFeatureFlags(): Promise<FeatureFlags> {
       ? new PostHog(env.POSTHOG_API_KEY, { host })
       : new PostHog(env.POSTHOG_API_KEY);
     cached = new PostHogFeatureFlags({ client });
+    return cached;
+  }
+
+  if (
+    env.FEATURE_FLAGS_PROVIDER === "launchdarkly" &&
+    env.LAUNCHDARKLY_SDK_KEY
+  ) {
+    const client = createFetchLaunchDarklyClient({
+      sdkKey: env.LAUNCHDARKLY_SDK_KEY,
+      ...(env.LAUNCHDARKLY_ENDPOINT
+        ? { endpoint: env.LAUNCHDARKLY_ENDPOINT }
+        : {}),
+    });
+    cached = new LaunchDarklyFeatureFlags({ client });
     return cached;
   }
 

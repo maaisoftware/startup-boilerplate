@@ -22,7 +22,7 @@ const nodeEnv = z.enum(["development", "production", "test"]);
 
 const loggerProvider = z.enum(["console", "sentry", "datadog"]);
 const analyticsProvider = z.enum(["noop", "posthog", "mixpanel", "ga4"]);
-const featureFlagsProvider = z.enum(["env", "posthog"]);
+const featureFlagsProvider = z.enum(["env", "posthog", "launchdarkly"]);
 const paymentsProvider = z.enum(["noop", "stripe"]);
 const automationsProvider = z.enum(["noop", "n8n"]);
 const cmsProvider = z.enum(["builtin"]);
@@ -103,6 +103,10 @@ export const serverSchema = z.object({
   // GA4 Measurement Protocol (server)
   GA4_MEASUREMENT_ID: optionalNonEmpty, // G-XXXXXXXXXX
   GA4_API_SECRET: optionalNonEmpty,
+
+  // LaunchDarkly (server)
+  LAUNCHDARKLY_SDK_KEY: optionalNonEmpty,
+  LAUNCHDARKLY_ENDPOINT: optionalUrl, // override for EU / relay proxy
 
   // Stripe
   STRIPE_SECRET_KEY: optionalNonEmpty,
