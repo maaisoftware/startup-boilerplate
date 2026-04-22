@@ -23,7 +23,7 @@ const nodeEnv = z.enum(["development", "production", "test"]);
 const loggerProvider = z.enum(["console", "sentry", "datadog"]);
 const analyticsProvider = z.enum(["noop", "posthog", "mixpanel", "ga4"]);
 const featureFlagsProvider = z.enum(["env", "posthog", "launchdarkly"]);
-const paymentsProvider = z.enum(["noop", "stripe"]);
+const paymentsProvider = z.enum(["noop", "stripe", "paddle", "lemonsqueezy"]);
 const automationsProvider = z.enum(["noop", "n8n"]);
 const cmsProvider = z.enum(["builtin"]);
 const docsEngineProvider = z.enum(["vault"]);
@@ -111,6 +111,16 @@ export const serverSchema = z.object({
   // Stripe
   STRIPE_SECRET_KEY: optionalNonEmpty,
   STRIPE_WEBHOOK_SECRET: optionalNonEmpty,
+
+  // Paddle Billing (server)
+  PADDLE_API_KEY: optionalNonEmpty,
+  PADDLE_WEBHOOK_SECRET: optionalNonEmpty,
+  PADDLE_ENDPOINT: optionalUrl, // sandbox override, e.g. https://sandbox-api.paddle.com
+
+  // Lemon Squeezy (server)
+  LEMONSQUEEZY_API_KEY: optionalNonEmpty,
+  LEMONSQUEEZY_WEBHOOK_SECRET: optionalNonEmpty,
+  LEMONSQUEEZY_STORE_ID: optionalNonEmpty,
 
   // n8n
   N8N_WEBHOOK_URL: optionalUrl,

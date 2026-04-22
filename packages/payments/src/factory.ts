@@ -1,6 +1,11 @@
 import { getServerEnv } from "@startup-boilerplate/env/server";
 
+import {
+  createFetchLemonSqueezyClient,
+  LemonSqueezyPayments,
+} from "./adapters/lemonsqueezy.ts";
 import { NoopPayments } from "./adapters/noop.ts";
+import { createFetchPaddleClient, PaddlePayments } from "./adapters/paddle.ts";
 import { StripePayments, type StripeClient } from "./adapters/stripe.ts";
 import type { Payments } from "./interfaces.ts";
 
@@ -26,6 +31,40 @@ export async function getPayments(): Promise<Payments> {
     });
     return cached;
   }
+
+  if (
+    env.PAYMENTS_PROVIDER === "paddle" &&
+    env.PADDLE_API_KEY &&
+    env.PADDLE_WEBHOOK_SECRET
+  ) {
+    const client = createFetchPaddleClient({
+      apiKey: env.PADDLE_API_KEY,
+      ...(env.PADDLE_ENDPOINT ? { endpoint: env.PADDLE_ENDPOINT } : {}),
+    });
+    cached = new PaddlePayments({
+      client,
+      webhookSecret: env.PADDLE_WEBHOOK_SECRET,
+    });
+    return cached;
+  }
+
+  if (
+    env.PAYMENTS_PROVIDER === "lemonsqueezy" &&
+    env.LEMONSQUEEZY_API_KEY &&
+    env.LEMONSQUEEZY_WEBHOOK_SECRET &&
+    env.LEMONSQUEEZY_STORE_ID
+  ) {
+    const client = createFetchLemonSqueezyClient({
+      apiKey: env.LEMONSQUEEZY_API_KEY,
+    });
+    cached = new LemonSqueezyPayments({
+      client,
+      webhookSecret: env.LEMONSQUEEZY_WEBHOOK_SECRET,
+      storeId: env.LEMONSQUEEZY_STORE_ID,
+    });
+    return cached;
+  }
+
   cached = new NoopPayments();
   return cached;
 }
