@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 
+import { CSRF_COOKIE_NAME, generateCsrfToken } from "./lib/csrf.ts";
 import { rateLimit, sweepExpired } from "./lib/rate-limit.ts";
 
 /**
@@ -10,6 +11,10 @@ import { rateLimit, sweepExpired } from "./lib/rate-limit.ts";
  *   - Attach security headers (CSP, HSTS, X-Frame-Options, etc.).
  *   - Rate-limit per-IP. Read-heavy routes get a generous bucket; API
  *     writes are tighter.
+ *   - Seed the `sb_csrf` double-submit cookie on first visit. The cookie
+ *     is readable from JS (non-httpOnly) so the browser can echo it back
+ *     in an `x-csrf-token` header on state-changing requests. apiHandler
+ *     verifies the match + HMAC signature server-side.
  *
  * What this layer must NEVER do:
  *   - Auth checks. Server Actions bypass matcher exclusions, so any auth
@@ -17,10 +22,6 @@ import { rateLimit, sweepExpired } from "./lib/rate-limit.ts";
  *     via requireSession() + requirePermission(), enforced per-handler.
  *   - DB or secret reads beyond typed env. Proxy can deploy to the edge
  *     and should not share globals with the app.
- *
- * CSRF verification is done by each POST/PATCH/DELETE route via the
- * api-handler wrapper rather than in the proxy — by design, so every
- * mutation path gets the check regardless of matcher configuration.
  */
 
 const PROD = process.env.NODE_ENV === "production";
@@ -44,6 +45,8 @@ const PROD_CSP_DIRECTIVES = CSP_DIRECTIVES.replace(
   "",
 );
 
+const CSRF_COOKIE_MAX_AGE_SECONDS = 60 * 60 * 12; // 12 hours, matches token TTL
+
 function addSecurityHeaders(response: NextResponse): NextResponse {
   response.headers.set(
     "Content-Security-Policy",
@@ -65,6 +68,25 @@ function addSecurityHeaders(response: NextResponse): NextResponse {
   return response;
 }
 
+async function ensureCsrfCookie(
+  request: NextRequest,
+  response: NextResponse,
+): Promise<void> {
+  if (request.cookies.get(CSRF_COOKIE_NAME)) return;
+  const token = await generateCsrfToken();
+  response.cookies.set({
+    name: CSRF_COOKIE_NAME,
+    value: token,
+    // Non-httpOnly so the browser can read it and echo in the header.
+    // SameSite=strict prevents cross-site requests from including it.
+    httpOnly: false,
+    sameSite: "strict",
+    secure: PROD,
+    path: "/",
+    maxAge: CSRF_COOKIE_MAX_AGE_SECONDS,
+  });
+}
+
 function clientIp(request: NextRequest): string {
   return (
     request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??
@@ -77,7 +99,7 @@ function isMutating(method: string): boolean {
   return method !== "GET" && method !== "HEAD" && method !== "OPTIONS";
 }
 
-export function proxy(request: NextRequest): NextResponse {
+export async function proxy(request: NextRequest): Promise<NextResponse> {
   const { pathname } = request.nextUrl;
 
   // Periodic sweep to keep the in-memory rate-limit store bounded.
@@ -103,11 +125,14 @@ export function proxy(request: NextRequest): NextResponse {
       response.headers.set("X-RateLimit-Limit", verdict.limit.toString());
       response.headers.set("X-RateLimit-Remaining", "0");
       response.headers.set("X-RateLimit-Reset", verdict.resetAt.toString());
+      await ensureCsrfCookie(request, response);
       return addSecurityHeaders(response);
     }
   }
 
-  return addSecurityHeaders(NextResponse.next());
+  const response = NextResponse.next();
+  await ensureCsrfCookie(request, response);
+  return addSecurityHeaders(response);
 }
 
 export const config = {

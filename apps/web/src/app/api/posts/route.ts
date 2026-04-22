@@ -14,6 +14,7 @@ import { createPost, createPostInputSchema } from "./actions";
  */
 export const POST = apiHandler({
   input: createPostInputSchema,
+  requireCsrf: true,
   handler: async ({ input, request }) => {
     const session = await getSessionFromCookies();
     requireSession(session);
