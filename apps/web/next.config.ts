@@ -15,17 +15,27 @@ import type { NextConfig } from "next";
  *
  * Security-first defaults:
  * - `poweredByHeader: false`: never leak framework identity.
- * - `output: "standalone"`: self-contained build for Docker.
- * - `experimental.typedRoutes`: catches broken links at build time.
+ * - `typedRoutes`: catches broken <Link href>s at build time.
+ *
+ * Standalone output is OPT-IN via `BUILD_STANDALONE=true` at build time
+ * (set by `infra/docker/web.Dockerfile`). Opting in produces a minimal
+ * self-contained server under `.next/standalone/` suitable for Docker;
+ * opting out keeps `next start` warning-free for local iteration. Both
+ * outputs ship the same server behaviour — the difference is the
+ * bundled filesystem layout.
  *
  * Additional security headers (CSP, HSTS, X-Frame-Options, Referrer-Policy, etc.)
  * are applied in the Proxy layer at runtime — see `apps/web/src/proxy.ts`.
- * (Proxy replaced the deprecated `middleware` file convention in Next 16.)
  */
+const standaloneOutput =
+  process.env["BUILD_STANDALONE"] === "true"
+    ? ({ output: "standalone" } as const)
+    : ({} as const);
+
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
-  output: "standalone",
+  ...standaloneOutput,
   typedRoutes: true,
   images: {
     remotePatterns: [

@@ -32,8 +32,12 @@ WORKDIR /repo
 COPY . .
 ARG NEXT_PUBLIC_APP_URL=http://localhost:3000
 ARG NEXT_PUBLIC_APP_NAME="Startup Boilerplate"
+# BUILD_STANDALONE flips next.config.ts into Next.js standalone output
+# mode. Only set at image build time so `pnpm build` locally stays
+# warning-free under `next start`.
 ENV NEXT_PUBLIC_APP_URL=${NEXT_PUBLIC_APP_URL} \
-    NEXT_PUBLIC_APP_NAME=${NEXT_PUBLIC_APP_NAME}
+    NEXT_PUBLIC_APP_NAME=${NEXT_PUBLIC_APP_NAME} \
+    BUILD_STANDALONE=true
 RUN pnpm --filter @startup-boilerplate/web build
 
 # --- runner stage: minimal, non-root, standalone server ---
