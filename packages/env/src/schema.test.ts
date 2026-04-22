@@ -96,7 +96,55 @@ describe("serverSchema", () => {
       expect(result.data.SENTRY_DSN).toBeUndefined();
       expect(result.data.STRIPE_SECRET_KEY).toBeUndefined();
       expect(result.data.N8N_WEBHOOK_URL).toBeUndefined();
+      expect(result.data.MIXPANEL_TOKEN).toBeUndefined();
+      expect(result.data.GA4_MEASUREMENT_ID).toBeUndefined();
     }
+  });
+
+  it("accepts ANALYTICS_PROVIDER=mixpanel with token + optional host", () => {
+    const result = serverSchema.safeParse({
+      ...baseServer,
+      ANALYTICS_PROVIDER: "mixpanel",
+      MIXPANEL_TOKEN: "mp-123",
+      MIXPANEL_API_HOST: "https://api-eu.mixpanel.com",
+    });
+    expect(result.success).toBe(true);
+    if (result.success) {
+      expect(result.data.ANALYTICS_PROVIDER).toBe("mixpanel");
+      expect(result.data.MIXPANEL_TOKEN).toBe("mp-123");
+      expect(result.data.MIXPANEL_API_HOST).toBe("https://api-eu.mixpanel.com");
+    }
+  });
+
+  it("rejects a malformed MIXPANEL_API_HOST", () => {
+    const result = serverSchema.safeParse({
+      ...baseServer,
+      MIXPANEL_API_HOST: "not-a-url",
+    });
+    expect(result.success).toBe(false);
+  });
+
+  it("accepts ANALYTICS_PROVIDER=ga4 with measurement id + secret", () => {
+    const result = serverSchema.safeParse({
+      ...baseServer,
+      ANALYTICS_PROVIDER: "ga4",
+      GA4_MEASUREMENT_ID: "G-ABC123",
+      GA4_API_SECRET: "secret-value",
+    });
+    expect(result.success).toBe(true);
+    if (result.success) {
+      expect(result.data.ANALYTICS_PROVIDER).toBe("ga4");
+      expect(result.data.GA4_MEASUREMENT_ID).toBe("G-ABC123");
+      expect(result.data.GA4_API_SECRET).toBe("secret-value");
+    }
+  });
+
+  it("rejects an unknown ANALYTICS_PROVIDER", () => {
+    const result = serverSchema.safeParse({
+      ...baseServer,
+      ANALYTICS_PROVIDER: "amplitude",
+    });
+    expect(result.success).toBe(false);
   });
 });
 

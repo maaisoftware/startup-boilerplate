@@ -21,7 +21,7 @@ import { z } from "zod";
 const nodeEnv = z.enum(["development", "production", "test"]);
 
 const loggerProvider = z.enum(["console", "sentry", "datadog"]);
-const analyticsProvider = z.enum(["noop", "posthog"]);
+const analyticsProvider = z.enum(["noop", "posthog", "mixpanel", "ga4"]);
 const featureFlagsProvider = z.enum(["env", "posthog"]);
 const paymentsProvider = z.enum(["noop", "stripe"]);
 const automationsProvider = z.enum(["noop", "n8n"]);
@@ -95,6 +95,14 @@ export const serverSchema = z.object({
 
   // PostHog (server)
   POSTHOG_API_KEY: optionalNonEmpty,
+
+  // Mixpanel (server)
+  MIXPANEL_TOKEN: optionalNonEmpty,
+  MIXPANEL_API_HOST: optionalUrl, // override for EU residency (e.g. https://api-eu.mixpanel.com)
+
+  // GA4 Measurement Protocol (server)
+  GA4_MEASUREMENT_ID: optionalNonEmpty, // G-XXXXXXXXXX
+  GA4_API_SECRET: optionalNonEmpty,
 
   // Stripe
   STRIPE_SECRET_KEY: optionalNonEmpty,
