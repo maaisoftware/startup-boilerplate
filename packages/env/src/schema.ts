@@ -20,7 +20,7 @@ import { z } from "zod";
 // ─── Enums shared by server and client ──────────────────────────────────────
 const nodeEnv = z.enum(["development", "production", "test"]);
 
-const loggerProvider = z.enum(["console", "sentry"]);
+const loggerProvider = z.enum(["console", "sentry", "datadog"]);
 const analyticsProvider = z.enum(["noop", "posthog"]);
 const featureFlagsProvider = z.enum(["env", "posthog"]);
 const paymentsProvider = z.enum(["noop", "stripe"]);
@@ -87,6 +87,11 @@ export const serverSchema = z.object({
   SENTRY_ORG: optionalNonEmpty,
   SENTRY_PROJECT: optionalNonEmpty,
   SENTRY_AUTH_TOKEN: optionalNonEmpty,
+
+  // Datadog (server)
+  DATADOG_API_KEY: optionalNonEmpty,
+  DATADOG_SITE: optionalNonEmpty, // "datadoghq.com" (default), "datadoghq.eu", "us3.datadoghq.com"
+  DATADOG_SERVICE: optionalNonEmpty, // service facet; defaults unset
 
   // PostHog (server)
   POSTHOG_API_KEY: optionalNonEmpty,
